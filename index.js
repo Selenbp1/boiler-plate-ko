@@ -75,6 +75,19 @@ app.get('/api/users/auth', auth ,(req,res) => {
     })
 })
 
+app.get('/api/users/logout', auth, (req,res) => {
+    User.findOneAndUpdate(
+        {_id:req.user._id}, // User의 아이디를 찾고,
+        {token: ""}, // token을 지워준다.
+        // callback function
+        (err, user) => {
+            if(err) return res.json({success:false, message:err});
+            return res.status(200).send({
+                success:true
+            })
+        }
+    )
+})
 
 
 app.listen(port, () => {
